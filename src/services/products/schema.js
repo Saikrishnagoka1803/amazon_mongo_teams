@@ -1,6 +1,7 @@
 import mongoose from "mongoose"
 import { reviewsSchema } from "../reviews/schema.js"
 
+
 const { Schema, model } = mongoose
 
 const productSchema = new Schema({
@@ -10,8 +11,7 @@ const productSchema = new Schema({
     price: { type: Number, required: true },
     category: { type: String, required: true, enum: ["cameras", "headphones", "laptops", "monitors", "smartphones"]},
     reviews: { default: [], type: [reviewsSchema] }
-    // reviews:[reviewsSchema]
-},
+
     { timestamps: true }
 )
 

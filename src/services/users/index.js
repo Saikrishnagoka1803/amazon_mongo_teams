@@ -1,7 +1,7 @@
 import express from "express"
 import createHttpError from "http-errors"
 import UserModel from "./schema.js"
-//import productModel from "../products/index.js"
+import productModel from "../products/index.js"
 
 
 const usersRouter = express.Router()
