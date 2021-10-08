@@ -2,7 +2,7 @@ import express, { Router } from "express"
 import mongoose from "mongoose"
 import Products from "./schema.js"
 
-const productRouter = express.Router()
+const router = express.Router()
 
 // GET all products
 router.get("/", async (req, res, next) => {
@@ -75,4 +75,4 @@ router.put("/:id", async (req, res, next) => {
 })
 
 
-export default productRouter
+export default router;

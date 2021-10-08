@@ -2,7 +2,7 @@ import express from "express";
 import createHttpError from "http-errors";
 import ProductModel from "../products/schema.js";
 
-reviewsRouter = express.Router();
+const reviewsRouter = express.Router();
 
 reviewsRouter.route(":productId/reviews").post(async (req, res, next) => {
   try {
