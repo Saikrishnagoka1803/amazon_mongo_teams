@@ -1,51 +1,57 @@
-import express from "express"
-import productModel from "../products/schema.js"
-import CartModel from "./schema.js"
-import createHttpError from "http-errors"
+import express from "express";
+import productModel from "../products/schema.js";
+import CartModel from "./schema.js";
+import createHttpError from "http-errors";
 
 const cartRoutes = express.Router();
 
-cartRoutes.post("/:productId/addToCart", async (req, res, next) => {
+cartRoutes.post("/:userId/addToCart", async (req, res, next) => {
   try {
-    //const productId = req.body.productId
+    const purchasedProduct = await productModel.findById(req.body.productId);
+    if (purchasedProduct) {
+      const isProductThere = await CartModel.findOne({
+        userId: req.params.userId,
+        status: "active",
+        "products.id": purchasedProduct._id
+      });
 
-    const purchasedproduct = await productModel.findById(bookId)
-
-    if (purchasedproduct) {
-      const isproductThere = await CartModel.findOne({ productId: req.params.productId, status: "active" })
-
-      if (isproductThere) {
+      if (isProductThere) {
         const cart = await CartModel.findOneAndUpdate(
-          { productId: req.params.productId, status: "active" },
+          { userId: req.params.userId, status: "active" },
           {
-            $inc: { "products.$.quantity": req.body.quantity }, // products[index].quantity += req.body.quantity
+            $inc: { "products.$.quantity": req.body.quantity }
           },
           {
-            new: true,
+            new: true
           }
-        )
-        res.send(cart)
+        );
+        res.send(cart);
       } else {
-        const productToInsert = { ...purchasedproduct.toObject(), quantity: req.body.quantity }
+        const productToInsert = {
+          ...purchasedProduct.toObject(),
+          quantity: req.body.quantity
+        };
 
         const cart = await CartModel.findOneAndUpdate(
-          { productId: req.params.productId, status: "active" },
+          { userId: req.params.userId, status: "active" },
           {
-            $push: { products: productToInsert },
+            $push: { products: productToInsert }
           },
           {
             new: true,
-            upsert: true,
+            upsert: true
           }
-        )
-        res.send(cart)
+        );
+        res.send(cart);
       }
     } else {
-      next(createHttpError(404, `product with id ${productId} not found!`))
+      next(
+        createHttpError(404, `product with id ${req.body.productId} not found!`)
+      );
     }
   } catch (error) {
-    next(error)
+    next(error);
   }
-})
+});
 
 export default cartRoutes;
