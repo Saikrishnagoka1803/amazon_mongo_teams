@@ -10,8 +10,7 @@ const productSchema = new Schema({
     brand: { type: String, required: true },
     price: { type: Number, required: true },
     category: { type: String, required: true, enum: ["cameras", "headphones", "laptops", "monitors", "smartphones"]},
-    reviews: { default: [], type: [reviewsSchema] }
-
+    reviews: { default: [], type: [reviewsSchema] }},
     { timestamps: true }
 )
 
