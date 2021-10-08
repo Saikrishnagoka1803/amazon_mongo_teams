@@ -2,21 +2,22 @@ import express, { Router } from "express"
 import mongoose from "mongoose"
 import Products from "./schema.js"
 
+
 const productRouter = express.Router()
 
 // GET all products
-router.get("/", async (req, res, next) => {
+productRouter.get("/", async (req, res, next) => {
     try {
         const products = await Products.find({})
         res.send(products)
     } catch (error) {
-        res.send(500).send({ message: error.message })
+        next(error)
     }
 })
 
 
 // GET product by id
-router.get("/:id", async (req, res, next) => {
+productRouter.get("/:id", async (req, res, next) => {
     try {
         const product = await Products.findById(req.params.id)
         if (!product) {
@@ -27,25 +28,25 @@ router.get("/:id", async (req, res, next) => {
             res.send(product)
         }
     } catch (error) {
-        res.send(500).send({ message: error.message })
+        next(error)
     }
 })
 
 
 // POST product
-router.post("/", async (req, res, next) => {
+productRouter.post("/", async (req, res, next) => {
     try {
+        console.log(req)
         const product = await new Products(req.body).save()
-        res.status(201).send(blog)
+        res.status(201).send(product)
     } catch (error) {
-        console.log(error)
-        res.send(500).send({ message: error.message })
+        next(error)
     }
 })
 
 
 // DELETE product
-router.delete("/:id", async (req, res, next) => {
+productRouter.delete("/:id", async (req, res, next) => {
     try {
         const product = await Products.findById(req.params.id)
         if (!product) {
@@ -57,20 +58,20 @@ router.delete("/:id", async (req, res, next) => {
             res.status(204).send()
         }
     } catch (error) {
-        res.send(500).send({ message: error.message })
+        next(error)
     }
 })
 
 
 // PUT product
-router.put("/:id", async (req, res, next) => {
+productRouter.put("/:id", async (req, res, next) => {
     try {
         const updated = await Products.findByIdAndUpdate(req.params.id, req.body, {
             new: true,
         })
         res.send(updated)
     } catch (error) {
-        res.send(500).send({ message: error.message })
+        next(error)
     }
 })
 
