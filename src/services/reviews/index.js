@@ -1,7 +1,7 @@
 import express from "express";
 import createHttpError from "http-errors";
 
-reviewsRouter = express.Router();
+const reviewsRouter = express.Router();
 
 reviewsRouter.route(":productId/reviews").post(async (req, res, next) => {
   try {
