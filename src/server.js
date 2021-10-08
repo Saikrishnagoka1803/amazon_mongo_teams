@@ -10,6 +10,7 @@ import {
 import usersRouter from "./services/users/index.js";
 import reviewsRouter from "./services/reviews/index.js";
 import productRouter from "./services/products/index.js";
+import cartRoutes from "./services/cart/index.js";
 
 const server = express();
 const port = process.env.PORT || 3001;
@@ -20,6 +21,8 @@ server.use(cors());
 server.use("/users", usersRouter);
 server.use("/reviews", reviewsRouter);
 server.use("/products", productRouter)
+server.use("/cart", cartRoutes)
+
 // server.use(notFoundHandler);
 // server.use(badRequestHandler);
 // server.use(genericErrorHandler);

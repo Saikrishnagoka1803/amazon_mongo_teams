@@ -19,7 +19,7 @@ usersRouter.post("/", async (req, res, next) => {
 
 usersRouter.get("/", async (req, res, next) => {
   try {
-    const users = await UserModel.find()
+    const users = await UserModel.find().populate("carts")
 
     res.send(users)
   } catch (error) {
@@ -31,7 +31,7 @@ usersRouter.get("/:userId", async (req, res, next) => {
   try {
     const userId = req.params.userId
 
-    const user = await UserModel.findById(userId) 
+    const user = await UserModel.findById(userId).populate("carts") 
 
     if (user) {
       res.send(user)

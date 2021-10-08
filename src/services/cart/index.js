@@ -7,7 +7,7 @@ const cartRoutes = express.Router();
 
 cartRoutes.post("/:userId/addToCart", async (req, res, next) => {
   try {
-    const purchasedProduct = await productModel.findById(req.body.productId);
+    const purchasedProduct = await productModel.findById(req.body.id);
     if (purchasedProduct) {
       const isProductThere = await CartModel.findOne({
         userId: req.params.userId,
