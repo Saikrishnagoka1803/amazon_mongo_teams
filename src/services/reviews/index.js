@@ -1,5 +1,6 @@
 import express from "express";
 import createHttpError from "http-errors";
+import ProductModel from "../products/schema.js";
 
 const reviewsRouter = express.Router();
 
@@ -65,11 +66,12 @@ reviewsRouter
     try {
       const targetProduct = await ProductModel.FindById(productId);
       if (targetProduct) {
-        const targetComment = await ProductModel.findByIdAndUpdate(
+        await ProductModel.findByIdAndUpdate(
           req.params.productId,
           { $pull: { reviews: { _id: req.params.reviewId } } },
           { new: true }
         );
+        res.staus(204).send();
       } else {
         next(
           createHttpError(
@@ -82,3 +84,5 @@ reviewsRouter
       next(error);
     }
   });
+
+export default reviewsRouter;
